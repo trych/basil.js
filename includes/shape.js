@@ -556,3 +556,21 @@ pub.duplicate = function(item){
   }
 
 };
+
+
+/**
+ * Draws a new interpolated shape between two shapes at a specific increment. 
+ * The amt parameter is the amount to interpolate between the two shapes where 0.0 is equal to the first point, 0.1 is very near the first point, 0.5 is half-way in between, etc.
+ * N.B.: Both shapes must have the same amount of points.
+ * 
+ * @cat Document
+ * @subcat Primitives
+ * @method lerpShape
+ * @param  {GraphicLine|Polygon} s1   Input shape 1
+ * @param  {GraphicLine|Polygon} s2   Input shape 2
+ * @param  {Number} amt The amount to interpolate between the two shapes
+ * @return {GraphicLine|Polygon} newShape
+ */
+pub.lerpShape = function(s1, s2, amt){
+
+};
