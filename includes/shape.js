@@ -572,5 +572,14 @@ pub.duplicate = function(item){
  * @return {GraphicLine|Polygon} newShape
  */
 pub.lerpShape = function(s1, s2, amt){
+  collectPathPoints(s1.paths[0]);
+};
 
+function collectPathPoints (path) {
+
+  var a = path.pathPoints.everyItem().anchor;
+  var l = path.pathPoints.everyItem().leftDirection;
+  var r = path.pathPoints.everyItem().rightDirection;
+
+  return [a, l, r];
 };
