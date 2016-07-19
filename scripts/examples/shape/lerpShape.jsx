@@ -11,6 +11,7 @@ function draw() {
   b.noFill();
 
   var dist = b.height / 5;
+  var steps = 4;
 
   var shapeA1 = b.rect(b.width / 2 - 200, dist, 100, 100);
   var shapeA2 = b.rect(b.width / 2 + 200, dist, 100, 100);
@@ -27,10 +28,10 @@ function draw() {
   // var shapeD1 = b.rect(b.width / 2 - 200, dist * 4, 100, 100);
   // var shapeD2 = b.rect(b.width / 2 + 200, dist * 4, 100, 100);
 
-  for (var i = 1; i < 4; i++) {
-    b.lerpShape(shapeA1, shapeA2, i * 0.25);
-    b.lerpShape(shapeB1, shapeB2, i * 0.25);
-    b.lerpShape(shapeC1, shapeC2, i * 0.25);
+  for (var i = 1; i < steps; i++) {
+    b.lerpShape(shapeA1, shapeA2, i * (1 / steps));
+    b.lerpShape(shapeB1, shapeB2, i * (1 / steps));
+    b.lerpShape(shapeC1, shapeC2, i * (1 / steps));
   }
 }
 
