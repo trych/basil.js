@@ -561,7 +561,7 @@ pub.duplicate = function(item){
 /**
  * Draws a new interpolated shape between two shapes at a specific increment. 
  * The amt parameter is the amount to interpolate between the two shapes where 0.0 is equal to the first point, 0.1 is very near the first point, 0.5 is half-way in between, etc.
- * N.B.: Both shapes must have the same amount of points.
+ * N.B.: Both shapes must have the same amount of paths and path points. The paths to interpolate must either be both closed or both open.
  * 
  * @cat Document
  * @subcat Primitives
@@ -572,6 +572,11 @@ pub.duplicate = function(item){
  * @return {GraphicLine|Polygon} newShape
  */
 pub.lerpShape = function(s1, s2, amt){
+  if (arguments.length !== 3) error("b.lerpShape(), wrong number of parameters to interpolate shapes. Use: s1, s2, amt");
+  if (!s1.paths.length || !s2.paths.length) error("b.lerpShape(), s1 or s2 is not a supported shape object. You can use rectangles, ovals, polygons, text frames or graphic lines as shape objects.");
+  // check if shapes have the same amount of paths
+  // check for each path if they have the same amount of path points and are both closed/opened
+  
   collectPathPoints(s1.paths[0]);
 };
 
