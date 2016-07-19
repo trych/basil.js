@@ -27,8 +27,11 @@ function draw() {
   // var shapeD1 = b.rect(b.width / 2 - 200, dist * 4, 100, 100);
   // var shapeD2 = b.rect(b.width / 2 + 200, dist * 4, 100, 100);
 
-
-
+  for (var i = 1; i < 4; i++) {
+    b.lerpShape(shapeA1, shapeA2, i * 0.25);
+    b.lerpShape(shapeB1, shapeB2, i * 0.25);
+    b.lerpShape(shapeC1, shapeC2, i * 0.25);
+  }
 }
 
 b.go();
