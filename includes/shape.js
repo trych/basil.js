@@ -573,18 +573,46 @@ pub.duplicate = function(item){
  */
 pub.lerpShape = function(s1, s2, amt){
   if (arguments.length !== 3) error("b.lerpShape(), wrong number of parameters to interpolate shapes. Use: s1, s2, amt");
-  if (!s1.paths.length || !s2.paths.length) error("b.lerpShape(), s1 or s2 is not a supported shape object. You can use rectangles, ovals, polygons, text frames or graphic lines as shape objects.");
-  // check if shapes have the same amount of paths
-  // check for each path if they have the same amount of path points and are both closed/opened
+  if (!s1.paths.length || !s2.paths.length) error("b.lerpShape(), s1 or s2 is not a supported shape object. Use rectangles, ovals, polygons, text frames or graphic lines as shape objects.");
+  if (s1.paths.length !== s2.paths.length) error("b.lerpShape(), s1 and s2 do not have the same amount of paths.");
   
-  collectPathPoints(s1.paths[0]);
+  for (var i = 0; i < s1.paths.length; i++) {
+    var p1 = s1.paths[i];
+    var p2 = s2.paths[i];
+
+    if(p1.pathType !== p2.pathType) error("b.lerpShape(), the paths of s1 and s2 are not all consistently closed paths or open paths.");
+    if(p1.pathPoints.length !== p2.pathPoints.length) error("b.lerpShape(), the paths of s1 and s2 do not have the same amount of path points.");
+
+    var interpolatedPathPoints = lerp3dPathPointArray( collectPathPoints(s1.paths[i]) , collectPathPoints(s2.paths[i]), amt);
+    // var pp1 = collectPathPoints(s1.paths[i]);
+    // var pp2 = collectPathPoints(s2.paths[i]);
+    // 
+    alert("interpolatedPathPoints: " + interpolatedPathPoints);
+  }
 };
 
 function collectPathPoints (path) {
+  var pp = [];
 
   var a = path.pathPoints.everyItem().anchor;
   var l = path.pathPoints.everyItem().leftDirection;
   var r = path.pathPoints.everyItem().rightDirection;
 
-  return [a, l, r];
+  for (var i = 0; i < a.length; i++) {
+    pp.push([a[i], l[i], r[i]]);
+  }
+
+  return pp;
 };
+
+function lerp3dPathPointArray (a1, a2, amt) {
+  var a1d = [];
+  for (var i = 0; i < a1.length; i++) {
+    var a2d = [];
+    for (var j = 0; j < a1[0].length; j++) {
+      a2d.push( [ pub.lerp(a1[i][j][0], a2[i][j][0],amt), pub.lerp(a1[i][j][1], a2[i][j][1],amt)] );
+    }
+    a1d.push(a2d);
+  }
+  return a1d;
+}
