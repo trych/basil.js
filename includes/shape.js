@@ -572,6 +572,7 @@ pub.duplicate = function(item){
  * @return {GraphicLine|Polygon} newShape
  */
 pub.lerpShape = function(s1, s2, amt){
+  currVertexPoints = [];
   if (arguments.length !== 3) error("b.lerpShape(), wrong number of parameters to interpolate shapes. Use: s1, s2, amt");
   if (!s1.paths.length || !s2.paths.length) error("b.lerpShape(), s1 or s2 is not a supported shape object. Use rectangles, ovals, polygons, text frames or graphic lines as shape objects.");
   if (s1.paths.length !== s2.paths.length) error("b.lerpShape(), s1 and s2 do not have the same amount of paths.");
@@ -583,11 +584,17 @@ pub.lerpShape = function(s1, s2, amt){
     if(p1.pathType !== p2.pathType) error("b.lerpShape(), the paths of s1 and s2 are not all consistently closed paths or open paths.");
     if(p1.pathPoints.length !== p2.pathPoints.length) error("b.lerpShape(), the paths of s1 and s2 do not have the same amount of path points.");
 
-    var interpolatedPathPoints = lerp3dPathPointArray( collectPathPoints(s1.paths[i]) , collectPathPoints(s2.paths[i]), amt);
-    // var pp1 = collectPathPoints(s1.paths[i]);
-    // var pp2 = collectPathPoints(s2.paths[i]);
-    // 
-    alert("interpolatedPathPoints: " + interpolatedPathPoints);
+    var interpolatedPathPoints = lerpPathPointArray( collectPathPoints(s1.paths[i]) , collectPathPoints(s2.paths[i]), amt);
+
+    if(!i) var intShape = currentPage().polygons.add( currentLayer() );
+    intShape.paths[i].entirePath = interpolatedPathPoints;
+
+  //   if (currShapeMode === pub.CLOSE) {
+  //   currPolygon = currentPage().polygons.add( currentLayer() );
+  // } else {
+  //   currPolygon = currentPage().graphicLines.add( currentLayer() );
+  // }
+
   }
 };
 
@@ -605,7 +612,7 @@ function collectPathPoints (path) {
   return pp;
 };
 
-function lerp3dPathPointArray (a1, a2, amt) {
+function lerpPathPointArray (a1, a2, amt) {
   var a1d = [];
   for (var i = 0; i < a1.length; i++) {
     var a2d = [];
