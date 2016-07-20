@@ -597,6 +597,7 @@ pub.lerpShape = function(s1, s2, amt){
   var interpolatedPathPoints = lerpPathPointArray( collectPathPoints(s1.paths[i]) , collectPathPoints(s2.paths[i]), amt);
   intShape.paths[i].entirePath = interpolatedPathPoints;
 
+  return intShape;
 };
 
 function collectPathPoints (path) {
