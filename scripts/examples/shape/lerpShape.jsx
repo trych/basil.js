@@ -10,20 +10,26 @@ function draw() {
   // initial setup of shapes
   b.rectMode( b.CENTER );
   b.noFill();
+  b.stroke(b.color(0, 0, 0));
+  b.fill(b.color(255, 255, 0));
 
   var dist = b.height / 5;
   var steps = 4;
 
   var shapeA1 = b.rect(b.width / 2 - 200, dist, 50, 50);
-  var shapeA2 = b.rect(b.width / 2 + 200, dist, 50, 50);
+  b.fill(b.color(255, 0, 0));
+  var shapeA2 = b.rect(b.width / 2 + 200, dist, 75, 75);
 
-  var shapeB1 = b.rect(b.width / 2 - 200, dist * 2, 50, 50);
-  b.rotate( b.radians(270) );
+  b.fillTint(99);
+  var shapeB1 = b.rect(b.width / 2 - 200, dist * 2, 75, 75);
+  b.fillTint(0);
   var shapeB2 = b.ellipse(b.width / 2 + 200, dist * 2, 50, 50);
-  b.resetMatrix();
 
+  b.stroke(b.color(255, 0, 0));
   var shapeC1 = b.rect(b.width / 2 - 200, dist * 3, 50, 50);
   b.rotate( b.radians(90) );
+  b.stroke(b.color(0, 0, 255));
+  b.strokeWeight(5);
   var shapeC2 = b.rect(b.width / 2 + 200, dist * 3, 50, 50);
   b.resetMatrix();
 

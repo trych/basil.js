@@ -561,7 +561,7 @@ pub.duplicate = function(item){
 /**
  * Draws a new interpolated shape between two shapes at a specific increment. 
  * The amt parameter is the amount to interpolate between the two shapes where 0.0 is equal to the first point, 0.1 is very near the first point, 0.5 is half-way in between, etc.
- * N.B.: Both shapes must have the same amount of paths and path points. The paths to interpolate must either be both closed or both open.
+ * N.B.: Both shapes must consist of exactly one path each with the same amount of path points. The paths to interpolate must either be both closed or both open.
  * 
  * @cat Document
  * @subcat Primitives
@@ -572,30 +572,31 @@ pub.duplicate = function(item){
  * @return {GraphicLine|Polygon} newShape
  */
 pub.lerpShape = function(s1, s2, amt){
-  currVertexPoints = [];
   if (arguments.length !== 3) error("b.lerpShape(), wrong number of parameters to interpolate shapes. Use: s1, s2, amt");
   if (!s1.paths.length || !s2.paths.length) error("b.lerpShape(), s1 or s2 is not a supported shape object. Use rectangles, ovals, polygons, text frames or graphic lines as shape objects.");
-  if (s1.paths.length !== s2.paths.length) error("b.lerpShape(), s1 and s2 do not have the same amount of paths.");
   
-  for (var i = 0; i < s1.paths.length; i++) {
-    var p1 = s1.paths[i];
-    var p2 = s2.paths[i];
+  var p1 = s1.paths[0];
+  var p2 = s2.paths[0];
 
-    if(p1.pathType !== p2.pathType) error("b.lerpShape(), the paths of s1 and s2 are not all consistently closed paths or open paths.");
-    if(p1.pathPoints.length !== p2.pathPoints.length) error("b.lerpShape(), the paths of s1 and s2 do not have the same amount of path points.");
+  if(p1.pathType !== p2.pathType) error("b.lerpShape(), the paths of s1 and s2 are neither both closed paths nor both open paths.");
+  if(p1.pathPoints.length !== p2.pathPoints.length) error("b.lerpShape(), the paths of s1 and s2 do not have the same amount of path points.");
 
-    var interpolatedPathPoints = lerpPathPointArray( collectPathPoints(s1.paths[i]) , collectPathPoints(s2.paths[i]), amt);
-
-    if(!i) var intShape = currentPage().polygons.add( currentLayer() );
-    intShape.paths[i].entirePath = interpolatedPathPoints;
-
-  //   if (currShapeMode === pub.CLOSE) {
-  //   currPolygon = currentPage().polygons.add( currentLayer() );
-  // } else {
-  //   currPolygon = currentPage().graphicLines.add( currentLayer() );
-  // }
-
+  if (p1.pathType === PathType.CLOSED_PATH) {
+    var intShape = currentPage().polygons.add( currentLayer() );
+  } else {
+    var intShape = currentPage().graphicLines.add( currentLayer() );
   }
+  with (intShape) {
+    strokeWeight = pub.lerp(s1.strokeWeight, s2.strokeWeight, amt);
+    strokeColor = pub.lerpColor(s1.strokeColor, s2.strokeColor, amt);
+    strokeTint = pub.lerp(s1.strokeTint, s2.strokeTint, amt);
+    fillColor = pub.lerpColor(s1.fillColor, s2.fillColor, amt);;
+    fillTint = pub.lerp(s1.fillTint, s2.fillTint, amt);
+  }
+
+  var interpolatedPathPoints = lerpPathPointArray( collectPathPoints(s1.paths[i]) , collectPathPoints(s2.paths[i]), amt);
+  intShape.paths[i].entirePath = interpolatedPathPoints;
+
 };
 
 function collectPathPoints (path) {
