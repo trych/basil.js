@@ -19,6 +19,50 @@ pub.doc = function(doc) {
 };
 
 /**
+ * Sets the size of the current document, if arguments are given.
+ * If only one argument is given, both the width and the height are set to this value.
+ * If no argument is given, an object containing the current document's width and height is returned.
+ *
+ * @cat Document
+ * @method size
+ * @param  {Number} width The desired width of the current document
+ * @param  {Number} [height] optional the desired height of the current document. If not provided the width will be used as the height.
+ * @return {Object} if no argument is given it returns an object containing the current width and height of the document.
+ *
+ */
+pub.size = function(width, height){
+  if(app.documents.length === 0){
+    // there are no documents
+    warning('b.size(width, height)', 'You have no open document.');
+    return;
+  } else {
+    if (arguments.length === 0){
+      // no arguments given
+      // return the curent values
+      // warning('b.size(width, height)', 'no arguments given');
+      return {width: pub.width, height: pub.height};
+    }
+
+    if(arguments.length === 1){
+      // only one argument set the first to the secound
+      height = width;
+    }
+    var doc = app.documents[0];
+    // set the documents pageHeiht and pageWidth
+    doc.properties =  {
+      documentPreferences:{
+      pageHeight: height,
+      pageWidth: width
+      }
+    };
+    // set height and width
+    pub.height = height;
+    pub.width = width;
+  }
+
+}
+
+/**
  * Closes the current document.
  *
  * @cat Document
@@ -314,7 +358,7 @@ pub.addToStory = function(story, itemOrString, insertionPointorMode) {
 };
 
 /**
- * Returns the current layer and sets it if argument layer is given.
+ * Returns the current layer if no argument is given. Sets active layer if layer object or name of existing layer is given. Newly creates layer and sets it to active if new name is given.
  *
  * @cat Document
  * @subcat Page
@@ -326,12 +370,17 @@ pub.layer = function(layer) {
   checkNull(layer);
   if (layer instanceof Layer) {
     currLayer = layer;
+    currentDoc().activeLayer = currLayer;
   } else if (typeof layer === 'string') {
     var layers = currentDoc().layers;
     currLayer = layers.item(layer);
     if (!currLayer.isValid) {
       currLayer = layers.add({name: layer});
+    } else {
+      currentDoc().activeLayer = currLayer;
     }
+  } else if (arguments.length > 0) {
+    error("b.layer(), wrong arguments. Use layer object or string instead.")
   }
   return currentLayer();
 };
