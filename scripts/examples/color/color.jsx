@@ -1,5 +1,5 @@
-#includepath "~/Documents/;%USERPROFILE%Documents";
-#include "basiljs/bundle/basil.js";
+//@includepath "~/Documents/;%USERPROFILE%Documents";
+//@include "basiljs/basil.js";
 
 function draw() {
   // get the number of swatches, to see later how many new ones have been created

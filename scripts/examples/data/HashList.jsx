@@ -1,5 +1,5 @@
-#includepath "~/Documents/;%USERPROFILE%Documents";
-#include "basiljs/bundle/basil.js";
+//@includepath "~/Documents/;%USERPROFILE%Documents";
+//@include "basiljs/basil.js";
 
 // example shows how to use a HashList to count the occurrence of words in a text
 

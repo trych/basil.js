@@ -1,5 +1,5 @@
-#includepath "~/Documents/;%USERPROFILE%Documents";
-#include "basiljs/bundle/basil.js";
+//@includepath "~/Documents/;%USERPROFILE%Documents";
+//@include "basiljs/basil.js";
 
 // groups can be handled in a number a different ways
 // finding, creating, releasing

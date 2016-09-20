@@ -1,5 +1,5 @@
-#includepath "~/Documents/;%USERPROFILE%Documents";
-#include "basiljs/bundle/basil.js";
+//@includepath "~/Documents/;%USERPROFILE%Documents";
+//@include "basiljs/basil.js";
 
 function draw() {
   // Example shows how to shows how to download an url to a file

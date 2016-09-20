@@ -3,8 +3,8 @@
  * no idea what CSV is? then have a read here: http://en.wikipedia.org/wiki/Comma-separated_values
  */
 
-#includepath "~/Documents/;%USERPROFILE%Documents";
-#include "basiljs/bundle/basil.js";
+//@includepath "~/Documents/;%USERPROFILE%Documents";
+//@include "basiljs/basil.js";
 
 // to load an external csv file use 
 // var jsonString = b.loadString("path/to/file.csv")

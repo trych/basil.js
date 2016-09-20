@@ -1,6 +1,6 @@
-#targetengine "loop";
-#includepath "~/Documents/;%USERPROFILE%Documents";
-#include "basiljs/bundle/basil.js";
+//@targetengine "loop";
+//@includepath "~/Documents/;%USERPROFILE%Documents";
+//@include "basiljs/basil.js";
 
 // note: use telnet on terminal to send strings after the server was started
 // telnet localhost 1024
